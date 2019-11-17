@@ -29,10 +29,11 @@ def runConversion():
     except Exception:
         pass
     gbpRate = reqJson["rates"]["GBP"]
-    print("GBP to {} rate is £{}".format(args.currency, str(round(gbpRate, 2))))
+    print("{} to GBP rate is £{}".format(args.currency, str(round(gbpRate, 2))))
     print(str(round(args.inputAmount, 2)) + " " + args.currency + " is £" + str(round(gbpRate*args.inputAmount, 2)))
 
 if (args.show_refs):
     getCurrencyRef();
 else:
     runConversion()
+input("Press enter..")
