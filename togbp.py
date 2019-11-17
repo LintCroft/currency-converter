@@ -1,12 +1,12 @@
 import argparse
 import requests
 
+url = "https://api.exchangeratesapi.io/latest"
 parser = argparse.ArgumentParser("Convert to GBP")
-parser.add_argument("inputAmount", help="Amount to be converted to GBP", type=float)
+parser.add_argument("-i", "--input-amount", help="Amount to be converted to GBP", type=float)
 parser.add_argument("-c", "--currency", help="Currency (defaults is PHP)", type=str.upper, default="PHP")
 parser.add_argument("-r", "--show-refs", help="Display currency refs", action="store_true")
 args = parser.parse_args()
-url = "https://api.exchangeratesapi.io/latest"
 
 def getCurrencyRef():
     reqJson = requests.get(url = url).json()
@@ -30,7 +30,12 @@ def runConversion():
         pass
     gbpRate = reqJson["rates"]["GBP"]
     print("{} to GBP rate is £{}".format(args.currency, str(round(gbpRate, 2))))
-    print(str(round(args.inputAmount, 2)) + " " + args.currency + " is £" + str(round(gbpRate*args.inputAmount, 2)))
+    inputAmount = args.input_amount
+    if not inputAmount:
+        inputAmount = float(input("How much {} to convert to GBP?\n".format(args.currency)))
+    print(str(round(inputAmount, 2)) + " " + args.currency + " is £" + str(round(gbpRate*inputAmount, 2)))
+
+
 
 if (args.show_refs):
     getCurrencyRef();
